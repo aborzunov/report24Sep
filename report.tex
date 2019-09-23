@@ -41,9 +41,11 @@
 \usepackage{color}
 \graphicspath{{./images/}}
 
+\usepackage{animate}
+
 
 %Information to be included in the title page:
-\title[Синтез ячейки RRAM]{Обратная задача интерпретации эксперимента на ячейке резистивной памяти}
+\title[Обратная задача, органическая резестивная память]{Обратная задача определения параметров ячейки органической резистивной памяти}
 \author[А.А. Борзунов]{А.А.~Борзунов~\inst{1} \and Д.В.~Лукьяненко~\inst{1}  \and А.Г.~Ягола~\inst{1} \and М.С.~Котова~\inst{2}}
 \institute[МГУ им М.В. Ломоносова]{\inst{1}каф. математики, физический факультет, Московский Государственный Университет им. М.В. Ломоносова \and \inst{2}каф. общей физики и физики конденсированного состояния, физический факультет, Московский Государственный Университет им. М.В. Ломоносова}
 \titlegraphic{\includegraphics[width=2cm]{ff.png}}
@@ -59,12 +61,106 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Проблематика}
+    \frametitle{Ячейка резистивной памяти}
+    \begin{figure}
+        \includegraphics[width=0.65\linewidth]{UT_static.eps}
+        \caption{Слева~--- распределения потенциала, справа~--- температуры внутри ячейки памяти.}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Постановка задачи}
+    \frametitle{Коллапс проводящего канала}
+    \begin{figure}
+        \animategraphics[loop,controls,width=0.6\linewidth]{5}{UT-}{0}{19}
+        \caption{Разрушение проводящего канала.}
+    \end{figure}
 \end{frame}
+
+\begin{frame}[allowframebreaks]
+    \frametitle{Модель}
+    \begin{enumerate}
+        \item Вычисляем $\rho(y,r)$:
+        \begin{equation*}
+            \rho(y,r) =
+            \left\{
+            \begin{aligned}
+                &\rho_0(y,r), &  &r < R(y,t),\\
+                &\rho_m, & &r \geqslant R(y,t),
+            \end{aligned}
+            \right.
+        \end{equation*}
+        где $ \rho_0(y,r)=\rho_{00}\Big(1 + \alpha \big(T(y,r) - T_0\big) \Big)~\cite{russo2008}$.
+
+    \item Решаем эллиптическую задачу для потенциалов $V(y,r,t)$ ($t$~--- параметр):
+        \begin{equation*}
+            \left\{
+            \begin{aligned}
+                &\nabla \left(\frac{1}{\rho}\nabla V\right) = 0, \quad y \in (0,l), \quad r \in [0,l_r],\\
+                &V(0,r,t) = 0, \quad V(l_y,r,t) = V_a,\\
+                &\dfrac{\partial}{\partial r}V(y,0,t) = \dfrac{\partial}{\partial r} V(y,l_r,t)=0,
+            \end{aligned}
+            \right.
+        \end{equation*}
+
+    \item Вычисляем компоненты вектора плотности тока $\vec{J}$ $\vec{J}(y,r,t) =1/\rho \nabla V$, и $J^2 \equiv |\vec{J}|^2$ в каждой точке рассматриваемой области.
+
+    \item Решаем эллиптическую задачу для температуры $T(y,r,t)$ ($t$~--- параметр):
+        \begin{equation*}
+            \left\{
+            \begin{aligned}
+                &-\nabla (k\nabla T)= \rho J^2, \quad y \in (0,l), \quad r \in [0,l_r],\\
+                &T(0,r,t) = 300, \quad T(l_y,r,t) = 300,\\
+                &\dfrac{\partial}{\partial r}T(y,0,t) = \dfrac{\partial}{\partial r} T(y,l_r,t)=0.
+            \end{aligned}
+            \right.
+        \end{equation*}
+
+    \item Вычисляем координаты проводящего канала $R(y,T,t)$ в новый момент времени:
+        \begin{equation*}
+            R(y,t + \tau) = R(y,t) - v_{D0} e^{-E_a/{k}_{BT}} \tau~\cite{russo2008}.
+        \end{equation*}
+
+    \item Задаем новый момент времени $t: = t + \tau$. Если $t < \theta$, то переходи к пункту~2.
+
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Минимизация функционала}
+    Минимизируемый функционал представляет собой квадрат невязки экспериментальной и полученной в ходе численного эксперимента вольт-амперной характеристики $ J(\rho,\alpha,k) = || I_m - I_e||^2 $
+    \begin{figure}
+        \includegraphics[width=0.55\linewidth]{IV.jpg}
+        \caption{Синяя кривая~--- экспериментальные данные, черная~--- результат моделирования с заданными параметрами.}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Эволюционная факторизация эллиптического уравнения}
+
+    Следующее приближение $\hat{u}$ функции $u$ через момент времени $\tau$ будет определяться из  факторизованного уравнения
+    \begin{equation*}
+        \Big(E - a\tau \Lambda_y\Big)\Big(E - a \tau \Lambda_r\Big)\dfrac{\hat{u} - u}{\tau} = (\Lambda_r + \Lambda_y) u + f\Big(y,r,t+\dfrac{\tau}{2}\Big),
+    \end{equation*}
+    где
+    \begin{align*}
+    &{\Big(\Lambda_r u\Big)}_{m,n} = \dfrac{1}{dr}\bigg[\frac{1}{\rho(y_{m},r_{n + 1/2})}\dfrac{u_{m,n + 1} - u_{m,n}}{dr} - \frac{1}{\rho(y_{m},r_{n - 1/2})}\dfrac{u_{m,n} - u_{m,n - 1}}{dr}\bigg], \\
+    &{\Big(\Lambda_y u\Big)}_{m,n} = \dfrac{1}{dy}\bigg[\frac{1}{\rho(y_{m + 1/2},r_{n})}\dfrac{u_{m + 1,n} - u_{m,n}}{dy} - \frac{1}{\rho(y_{m - 1/2},r_{n})}\dfrac{u_{m,n} - u_{m - 1,n}}{dy}\bigg];
+\end{align*}
+или, в другом виде:
+\begin{align*}
+    &\Big(E - a\tau \Lambda_y\Big)v = (\Lambda_r + \Lambda_y) u + f\Big(y,r,t+\dfrac{\tau}{2}\Big), \\
+    &\Big(E - a \tau \Lambda_r\Big)\dfrac{\hat{u} - u}{\tau} = v.
+\end{align*}
+
+\end{frame}
+
+\begin{frame}
+    \begin{figure}
+        \includegraphics{FACT.eps}
+        \caption{Схематическое изображение решения эллиптической задачи с помощью эволюционной факторизации.}
+    \end{figure}
+\end{frame}
+
 
 \begin{frame}[allowframebreaks]
     \bibliography{bibliography}
@@ -73,7 +169,7 @@
 \begin{frame}
     \frametitle{Спасибо за внимание!}
     Текст презентации доступен по ссылке:
-    \url{https://github.com/aborzunov/report22May}
+    \url{https://github.com/aborzunov/report24Sep}
     \begin{figure*}
         \includegraphics[width=0.5\linewidth]{repo_link.eps}
     \end{figure*}
