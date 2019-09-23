@@ -1,0 +1,83 @@
+\documentclass{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{beaver}
+\setbeamertemplate{caption}[numbered]
+\makeatother
+\setbeamertemplate{footline}
+{\leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+      \usebeamerfont{author in head/foot}\insertshortauthor{}~(\insertshortinstitute{})
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+      \usebeamerfont{title in head/foot}\insertshorttitle{}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+}
+\makeatletter
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+
+\usepackage{animate}
+\usepackage{graphicx}
+\bibliographystyle{unsrt}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{lscape}
+\usepackage{color}
+\graphicspath{{./images/}}
+
+
+%Information to be included in the title page:
+\title[Синтез ячейки RRAM]{Обратная задача интерпретации эксперимента на ячейке резистивной памяти}
+\author[А.А. Борзунов]{А.А.~Борзунов~\inst{1} \and Д.В.~Лукьяненко~\inst{1}  \and А.Г.~Ягола~\inst{1} \and М.С.~Котова~\inst{2}}
+\institute[МГУ им М.В. Ломоносова]{\inst{1}каф. математики, физический факультет, Московский Государственный Университет им. М.В. Ломоносова \and \inst{2}каф. общей физики и физики конденсированного состояния, физический факультет, Московский Государственный Университет им. М.В. Ломоносова}
+\titlegraphic{\includegraphics[width=2cm]{ff.png}}
+
+\date{24 Сентября 2019 г.}
+
+
+
+\begin{document}
+
+\begin{frame}
+    \titlepage{}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Проблематика}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Постановка задачи}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+    \bibliography{bibliography}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Спасибо за внимание!}
+    Текст презентации доступен по ссылке:
+    \url{https://github.com/aborzunov/report22May}
+    \begin{figure*}
+        \includegraphics[width=0.5\linewidth]{repo_link.eps}
+    \end{figure*}
+    \usebeamerfont{institute} Contact: \url{Andrey.Borzunov@gmail.com}
+
+\end{frame}
+\end{document}
